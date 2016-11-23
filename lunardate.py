@@ -87,14 +87,15 @@ __all__ = ['LunarDate']
 class LunarDate(object):
     _startDate = datetime.date(1900, 1, 31)
 
-    def __init__(self, year, month, day, isLeapMonth=False):
+    def __init__(self, year, month, day, isLeapMonth=False, isBig = None):
         self.year = year
         self.month = month
         self.day = day
         self.isLeapMonth = bool(isLeapMonth)
+        self.isBig = isBig
 
     def __str__(self):
-        return 'LunarDate(%d, %d, %d, %d)' % (self.year, self.month, self.day, self.isLeapMonth)
+        return 'LunarDate(%d, %d, %d, %d, %d)' % (self.year, self.month, self.day, self.isLeapMonth, self.isBig)
 
     __repr__ = __str__
 
@@ -257,11 +258,15 @@ class LunarDate(object):
     @classmethod
     def _fromOffset(cls, offset):
         def _calcMonthDay(yearInfo, offset):
+            isBig = True
             for month, days, isLeapMonth in cls._enumMonth(yearInfo):
                 if offset < days:
+                    if days == 29:
+                        isBig = False
+
                     break
                 offset -= days
-            return (month, offset + 1, isLeapMonth)
+            return (month, offset + 1, isLeapMonth, isBig)
 
         offset = int(offset)
 
@@ -272,8 +277,8 @@ class LunarDate(object):
         year = 1900 + idx
 
         yearInfo = yearInfos[idx]
-        month, day, isLeapMonth = _calcMonthDay(yearInfo, offset)
-        return LunarDate(year, month, day, isLeapMonth)
+        month, day, isLeapMonth, isBig = _calcMonthDay(yearInfo, offset)
+        return LunarDate(year, month, day, isLeapMonth, isBig)
 
 yearInfos = [
         #    /* encoding:
