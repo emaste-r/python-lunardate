@@ -1,6 +1,21 @@
 A Chinese Calendar Library in Pure Python
 =========================================
 
+fork lidaobing的项目
+
+因为项目需要，需要获取当前日期所在月是农历大小月的标志，随加入isBig ...    
+
+用法没差，只是
+`
+ from lunardate import LunarDate 
+ 
+ print LunarDate.fromSolarDate(1976, 10 ,1)
+`
+返回值从：LunarDate(1976, 8, 8, 1) 变成 LunarDate(1976, 8, 8, 1, 0) ...
+
+
+=========================================
+
 .. image:: https://travis-ci.org/lidaobing/python-lunardate.png?branch=master   :target: https://travis-ci.org/lidaobing/python-lunardate
 
 Chinese Calendar: http://en.wikipedia.org/wiki/Chinese_calendar
